@@ -2,46 +2,70 @@
 
 import { useEffect, useState } from 'react';
 
+type Todo = {
+  id: string;
+  title: string;
+  completed: boolean;
+};
+
 export default function TodoApp() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   useEffect(() => {
     fetch('/api/todos')
       .then(res => res.json())
-      .then(data => setTodos(data));
+      .then(data => setTodos(data))
+      .catch(err => console.error('Failed to fetch todos:', err));
   }, []);
 
-  const addTodo = async (e) => {
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim()) return;
-    const res = await fetch('/api/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: input.trim() })
-    });
-    const newTodo = await res.json();
-    setTodos([...todos, newTodo]);
-    setInput('');
+
+    try {
+      const res = await fetch('/api/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: input.trim() }),
+      });
+      const newTodo: Todo = await res.json();
+      setTodos([...todos, newTodo]);
+      setInput('');
+    } catch (err) {
+      console.error('Failed to add todo:', err);
+    }
   };
 
-  const toggleComplete = async (id, current) => {
-    const res = await fetch('/api/todos', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, completed: !current })
-    });
-    const updated = await res.json();
-    setTodos(todos.map(t => t.id === id ? updated : t));
+  const toggleComplete = async (id: string, current: boolean) => {
+    try {
+      const res = await fetch('/api/todos', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, completed: !current }),
+      });
+      const updated: Todo = await res.json();
+      setTodos(todos.map(t => (t.id === id ? updated : t)));
+    } catch (err) {
+      console.error('Failed to toggle completion:', err);
+    }
   };
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter(t => t.id !== id));
+  const deleteTodo = async (id: string) => {
+    try {
+      await fetch(`/api/todos?id=${id}`, {
+        method: 'DELETE',
+      });
+      setTodos(todos.filter(t => t.id !== id));
+    } catch (err) {
+      console.error('Failed to delete todo:', err);
+    }
   };
 
   const clearCompleted = () => {
-    setTodos(todos.filter(t => !t.completed));
+    const completedIds = todos.filter(t => t.completed).map(t => t.id);
+    completedIds.forEach(id => deleteTodo(id));
   };
 
   const filteredTodos = todos.filter(t =>
@@ -60,7 +84,7 @@ export default function TodoApp() {
             </svg>
             <span className="ml-2 text-xl font-semibold text-gray-900">Todo App</span>
           </div>
-          </div>
+        </div>
       </nav>
 
       <main className="flex-grow py-10 px-4 max-w-3xl mx-auto">
@@ -75,7 +99,7 @@ export default function TodoApp() {
               required
               className="flex-grow px-4 py-3 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <button className="btn-primary px-6 py-3 rounded-r-lg text-white font-medium bg-indigo-600 hover:bg-indigo-700">
+            <button type="submit" className="btn-primary px-6 py-3 rounded-r-lg text-white font-medium bg-indigo-600 hover:bg-indigo-700">
               Add Task
             </button>
           </form>
@@ -84,7 +108,7 @@ export default function TodoApp() {
             {['all', 'active', 'completed'].map((f) => (
               <button
                 key={f}
-                onClick={() => setFilter(f)}
+                onClick={() => setFilter(f as 'all' | 'active' | 'completed')}
                 className={`px-4 py-2 text-sm font-medium rounded-md ${filter === f ? 'bg-indigo-100 text-indigo-700' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -107,8 +131,8 @@ export default function TodoApp() {
                   </div>
                   <button onClick={() => deleteTodo(todo.id)} className="btn-delete p-2 rounded-full hover:bg-red-100">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
                   </button>
                 </div>
               ))}
@@ -116,8 +140,8 @@ export default function TodoApp() {
           ) : (
             <div className="py-12 flex flex-col items-center text-center">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
               <h3 className="text-lg font-medium text-gray-900">No tasks yet</h3>
               <p className="text-gray-500 mt-1">Add a new task to get started</p>
             </div>
