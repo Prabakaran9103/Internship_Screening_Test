@@ -1,11 +1,17 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 
+type ChatMessage = {
+  id: string;
+  role: 'user' | 'model';
+  text: string;
+};
+
 export default function Page() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -14,7 +20,12 @@ export default function Page() {
   const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
-    const userMessage = { role: 'user', text: input };
+    const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: 'user',
+      text: input,
+    };
+
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
@@ -39,19 +50,31 @@ export default function Page() {
         result.candidates[0].content?.parts?.length > 0
       ) {
         const aiResponseText = result.candidates[0].content.parts[0].text;
-        setMessages((prev) => [...prev, { role: 'model', text: aiResponseText }]);
+        const aiMessage: ChatMessage = {
+          id: crypto.randomUUID(),
+          role: 'model',
+          text: aiResponseText,
+        };
+        setMessages((prev) => [...prev, aiMessage]);
       } else {
-        console.error('Unexpected response:', result);
         setMessages((prev) => [
           ...prev,
-          { role: 'model', text: 'Sorry, I could not get a response.' },
+          {
+            id: crypto.randomUUID(),
+            role: 'model',
+            text: 'Sorry, I could not get a response.',
+          },
         ]);
       }
     } catch (error) {
       console.error('API error:', error);
       setMessages((prev) => [
         ...prev,
-        { role: 'model', text: 'An error occurred. Please try again.' },
+        {
+          id: crypto.randomUUID(),
+          role: 'model',
+          text: 'An error occurred. Please try again.',
+        },
       ]);
     } finally {
       setIsLoading(false);
@@ -71,9 +94,9 @@ export default function Page() {
           </div>
         )}
 
-        {messages.map((msg, index) => (
+        {messages.map((msg) => (
           <div
-            key={index}
+            key={msg.id}
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
@@ -122,7 +145,7 @@ export default function Page() {
           placeholder="Type your message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === 'Enter' && !isLoading) {
               handleSendMessage();
             }
