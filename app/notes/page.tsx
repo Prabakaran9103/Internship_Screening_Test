@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   listNotes,
   createNote,
@@ -22,14 +22,15 @@ export default function NotesPage() {
   const [editNoteId, setEditNoteId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false); // 🔁 New toggle state
 
-  const fetchNotes = async () => {
+  const fetchNotes = useCallback(async () => {
     const res = await listNotes({ maxResults: 10, query });
     setNotes(res.notes);
-  };
+  }, [query]);
 
   useEffect(() => {
     fetchNotes();
-  }, [query]);
+  }, [fetchNotes]);
+
 
   const handleAddOrUpdateNote = async () => {
     if (editNoteId) {
