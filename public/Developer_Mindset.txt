@@ -1,0 +1,44 @@
+1. What's the most exciting tool/stack you've explored recently?
+
+    One of the most exciting tools I’ve explored recently is the Next.js framework.
+    I’ve used it to build several practical applications, including a Todo app,
+    an AI ChatBox, and a NoteSync app.
+    What makes Next.js stand out is how it simplifies the development process
+    and helps complete complex tasks more seamlessly and efficiently.
+
+    With Next.js, integrating APIs is incredibly straightforward.
+    It provides a clean and organized structure that allows backend routes to be
+    created directly within the project using API routes, making it easy to handle data
+    and user interactions without setting up a separate server.
+
+    Another key advantage is its powerful routing system.
+    Instead of manually configuring routes, Next.js uses a file-based approach
+    where the folder and file names automatically define the URL paths.
+    This makes navigation and project organization much easier and more intuitive.
+
+-------------------------------------------------------------------------------------------------------------
+2. Describe how you approach debuggin when stuck.
+   
+    First, I try to understand the type of error that occurred.
+    Then, I check the exact line where the error happens and analyze the system's state
+    at that point to determine whether the program behaves as expected.
+    I usually print logs to the console to monitor the application's state.
+    I test each part of the program step by step to identify where it fails.
+    If I can find the root cause, I fix it manually. If not, I ask my friends for help
+    or seek support from online communities like Stack Overflow, or I search for solutions on Google.
+
+
+--------------------------------------------------------------------------------------------------------------
+3. Share a link to one past project you’re proud of (if any).
+
+     https://github.com/Prabakaran9103/Medical-Management-System
+
+     Over a dedicated period of three months, I took the initiative to learn and
+     master the core web development technologies required for this project.
+     Starting from scratch, I studied and practiced HTML and CSS to build the structure
+     and styling of web pages, and JavaScript to add interactivity and dynamic behavior.
+     I also learned PHP for server-side scripting, which allowed me to handle form submissions,
+     process user input, and manage sessions.
+     Additionally, I gained hands-on experience in connecting PHP to a MySQL database,
+     enabling data storage and retrieval functionalities for the project.
+     This learning journey has greatly enhanced my practical skills and understanding of full-stack web development.

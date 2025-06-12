@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Intern Screening Test – Full Stack + AI Integration
 
-## Getting Started
+Welcome! This is my submission for the AI-integrated full stack developer internship screening test. This repository contains the code for all 4 parts of the test as described in the original problem statement.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+- Next.js (App Router)
+- TypeScript
+- Zod (for schema validation)
+- React (Client Components)
+- In-memory API Simulation
+- Gemini for chat integration
+
+---
+
+## 📂 Project Structure
+
+├── app/
+│   ├── ai_integration_essay/
+│   │   └── page.tsx                 # Essay: AI model choice and integration
+│   │
+│   ├── api/
+│   │   ├── chat/
+│   │   │   └── route.ts             # Handles AI chat requests
+│   │   └── todos/
+│   │       └── route.ts             # Handles GET/POST for todo list
+│   │
+│   ├── chat/
+│   │   └── page.tsx                 # UI to interact with AI chat
+│   │
+│   ├── developer_mindset_essay/
+│   │   └── page.tsx                 # Essay: Tools, debugging approach, past project
+│   │
+│   ├── notes/
+│   │   └── page.tsx                 # NoteSync: Search, Add, Edit, Delete mock notes
+│   │
+│   ├── todos/
+│   │   └── page.tsx                 # Displays todos from API with add support
+│   │
+│   └── page.tsx                     # Home page
+│
+├── packages/
+│   └── integrations/
+│       └── notion/
+│           └── notesync/
+│               ├── notesync.functions.ts  # Mocked logic for listing, creating, updating notes
+│               ├── notesync.schema.ts     # Zod validation schemas
+│               └── notesync.embed.ts      # (optional) embed formatting file
+│
+├── .env.example                        # API key placeholder (if used)
+├── README.md                           # You're here!
+
+
+
+
+---
+
+## ✅ Part 1: Full Stack API — Todos
+
+- **Path:** `app/api/todos/route.ts`
+- **Features:**
+  - `GET`: Returns a list of static todo items
+  - `POST`: Accepts a new todo (in-memory storage)
+- **Includes:** TypeScript interfaces and JSON response using `NextResponse`
+
+---
+
+## 🤩 Part 2: Mock Integration — NoteSync
+
+- **Folder:** `packages/integrations/notion/notesync/`
+- **Files:**
+  - `notesync.functions.ts`: Exposes a `listNotes()` method with mocked data
+  - `notesync.schema.ts`: Validates input with Zod (e.g., `maxResults`, `query`)
+  - `notesync.embed.ts`: (optional) format utility
+
+
+## 🤖 Part 3: AI Integration (Essay + Bonus Component)
+## 🌱 Part 4: Developer Mindset
+
+
+---
+
+## 🛠 How to Run
 
 ```bash
+# Install dependencies
+npm install
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ 

@@ -1,0 +1,35 @@
+1.Which model/framework you'd choose and why?
+
+  If I had to choose a model or framework, I’d go with Gemini AI by Google DeepMind.
+  What makes Gemini really stand out to me is its ability to handle multiple types of input—like
+  text, images, audio, and even code—all in one model. That kind of flexibility is super useful,
+  especially when working on projects that mix different formats.
+
+  Plus, because it’s backed by Google, it integrates smoothly with tools I already use,
+  like Google Cloud, Colab, or Android development platforms. That kind of ecosystem support makes
+  development faster and more convenient.
+
+----------------------------------------------------------------------------------------------------------------------
+2.How you would integrate it into a Next.js app?
+
+  Step 1: Get API Access (getting API_KEY and storing in .env.local file)
+
+  Step 2: Create an API Route in Next.js (Use POST to send user prompts and 
+          GET if needed to retrieve preset or stored content.)
+
+  Step 3: Connect from Your Frontend ( In your frontend, create a form or input to capture
+          user prompts. Use fetch to send the prompt to your API route and display the Gemini AI
+          response.)
+
+----------------------------------------------------------------------------------------------------------------------
+3.How you'd handle input/output and streaming responses
+
+  To handle user input, I would use a controlled form element in the React frontend. 
+  The user's message would be captured using a useState hook and then sent to a Next.js API route
+  using a POST request.
+
+  The response from Gemini AI is received on the server side and sent back to the frontend as JSON.
+  On the frontend, I display the AI’s response inside a div tag.
+
+  Streaming adds real-time interactivity and can be achieved using ReadableStream or server-sent
+  events if the model and environment support it.
