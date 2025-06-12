@@ -38,7 +38,7 @@ export default function TodoApp() {
     }
   };
 
-  const toggleComplete = async (id: string, current: boolean) => {
+  const toggleComplete = async (id: number, current: boolean) => {
     try {
       const res = await fetch('/api/todos', {
         method: 'PATCH',
@@ -46,27 +46,29 @@ export default function TodoApp() {
         body: JSON.stringify({ id, completed: !current }),
       });
       const updated: Todo = await res.json();
-      setTodos(todos.map(t => (t.id === Number(id) ? updated : t)));
+      setTodos(todos.map(t => (t.id === id ? updated : t)));
     } catch (err) {
       console.error('Failed to toggle completion:', err);
     }
   };
 
-  const deleteTodo = async (id: string) => {
+  const deleteTodo = async (id: number) => {
     try {
       await fetch(`/api/todos?id=${id}`, {
         method: 'DELETE',
       });
-      setTodos(todos.filter(t => t.id !== Number(id)));
+      setTodos(todos.filter(t => t.id !== id));
     } catch (err) {
       console.error('Failed to delete todo:', err);
     }
   };
 
-  const clearCompleted = () => {
-    const completedIds = todos.filter(t => t.completed).map(t => t.id);
-    completedIds.forEach(id => deleteTodo(id));
-  };
+  const clearCompleted = async () => {
+  const completedIds = todos.filter(t => t.completed).map(t => t.id);
+  for (const id of completedIds) {
+    await deleteTodo(id);
+  }
+};
 
   const filteredTodos = todos.filter(t =>
     filter === 'all' ? true : filter === 'active' ? !t.completed : t.completed
