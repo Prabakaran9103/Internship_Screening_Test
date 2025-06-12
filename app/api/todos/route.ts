@@ -6,15 +6,11 @@ export interface TodoItem {
   completed: boolean;
 }
 
-// Global in-memory store
-if (!globalThis.todos) {
-  globalThis.todos = [
+const todos: TodoItem[] = [
     { id: 1, title: 'Buy Gift for Friend Birthday', completed: false },
     { id: 2, title: 'Do homework', completed: true },
     { id: 3, title: 'Read a book', completed: false },
   ];
-}
-const todos: TodoItem[] = globalThis.todos;
 
 export async function GET() {
   return NextResponse.json(todos);
