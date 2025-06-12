@@ -1,8 +1,8 @@
 // app/api/chat/route.js
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 // Handle POST requests to /api/chat
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   try {
     // Get the chat history from the request body.
     const { contents } = await request.json();
