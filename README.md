@@ -15,6 +15,8 @@ Welcome! This is my submission for the AI-integrated full stack developer intern
 
 ---
 
+```
+
 ## 📂 Project Structure
 
 ├── app/
@@ -52,9 +54,7 @@ Welcome! This is my submission for the AI-integrated full stack developer intern
 ├── .env.example                        # API key placeholder (if used)
 ├── README.md                           # You're here!
 
-
-
-
+```
 ---
 
 ## ✅ Part 1: Full Stack API — Todos
