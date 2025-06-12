@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
   }
     // Return a 500 error if something goes wrong on the server side.
     return NextResponse.json(
-      { error: 'Internal Server Error', details: error.message },
+      { error: 'Internal Server Error', details: 'Unknown error occurred.' },
       { status: 500 }
     );
   }
