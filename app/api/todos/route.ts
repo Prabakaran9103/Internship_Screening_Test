@@ -6,13 +6,13 @@ export interface TodoItem {
   completed: boolean;
 }
 
-let todos: TodoItem[] = [
-  { id: 1, title: 'Buy Gift for Harish Birthday', completed: false },
+const todos: TodoItem[] = [
+  { id: 1, title: 'Buy Gift for Friend Birthday', completed: false },
   { id: 2, title: 'Do homework', completed: true },
   { id: 3, title: 'Read a book', completed: false },
 ];
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   return NextResponse.json(todos);
 }
 
