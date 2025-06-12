@@ -1,4 +1,4 @@
-// app/api/chat/route.js
+// app/api/chat/route.ts
 import { NextResponse, NextRequest } from 'next/server';
 
 // Handle POST requests to /api/chat
