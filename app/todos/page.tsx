@@ -46,7 +46,7 @@ export default function TodoApp() {
         body: JSON.stringify({ id, completed: !current }),
       });
       const updated: Todo = await res.json();
-      setTodos(todos.map(t => (t.id === id ? updated : t)));
+      setTodos(todos.map(t => (t.id === Number(id) ? updated : t)));
     } catch (err) {
       console.error('Failed to toggle completion:', err);
     }
@@ -57,7 +57,7 @@ export default function TodoApp() {
       await fetch(`/api/todos?id=${id}`, {
         method: 'DELETE',
       });
-      setTodos(todos.filter(t => t.id !== id));
+      setTodos(todos.filter(t => t.id !== Number(id)));
     } catch (err) {
       console.error('Failed to delete todo:', err);
     }
