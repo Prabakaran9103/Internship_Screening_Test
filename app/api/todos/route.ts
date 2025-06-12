@@ -12,7 +12,7 @@ const todos: TodoItem[] = [
   { id: 3, title: 'Read a book', completed: false },
 ];
 
-export async function GET(_req: NextRequest) {
+export async function GET() {
   return NextResponse.json(todos);
 }
 
