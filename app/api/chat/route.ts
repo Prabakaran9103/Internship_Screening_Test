@@ -38,7 +38,12 @@ export async function POST(request: NextRequest) {
     // Return the result from the Gemini API directly to the client.
     return NextResponse.json(result, { status: response.status });
   } catch (error) {
-    console.error('Error in API route:', error);
+  if (error instanceof Error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error', details: error.message },
+      { status: 500 }
+    );
+  }
     // Return a 500 error if something goes wrong on the server side.
     return NextResponse.json(
       { error: 'Internal Server Error', details: error.message },
